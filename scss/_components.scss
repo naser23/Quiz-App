@@ -1,0 +1,8 @@
+$background-gradient: linear-gradient(#07a7ff, #0031b2);
+$blob: url(/Quiz-App/images/blob.svg);
+
+@mixin background($img) {
+  background-image: $img;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

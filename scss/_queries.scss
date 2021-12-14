@@ -1,0 +1,10 @@
+@import "_components";
+
+@media (min-width: 567.98px) {
+  #container {
+    .blob {
+      max-width: 70%;
+      // background-position: -75% 70%;
+    }
+  }
+}
