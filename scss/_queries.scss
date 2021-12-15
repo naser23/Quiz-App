@@ -2,9 +2,10 @@
 
 @media (min-width: 567.98px) {
   #container {
-    .blob {
-      max-width: 70%;
-      // background-position: -75% 70%;
+    ::after {
+      height: 80%;
+      width: 50%;
+      left: 50%;
     }
   }
 }
