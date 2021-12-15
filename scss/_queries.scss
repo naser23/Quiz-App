@@ -9,3 +9,20 @@
     }
   }
 }
+
+// styles for small screen landscape (iphone 5/SE)
+@media (width: 568px) and (orientation: landscape) {
+  #container {
+    .question-header {
+    }
+
+    .build-your-game {
+      height: 70%;
+      width: 60%;
+
+      &-header {
+        margin-bottom: 1.25rem;
+      }
+    }
+  }
+}
