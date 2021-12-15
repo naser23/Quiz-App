@@ -103,15 +103,27 @@ body {
     width: 50%;
     left: 50%;
   }
-}
-
-@media (width: 568px) and (orientation: landscape) {
   #container .build-your-game {
     height: 70%;
     width: 60%;
   }
   #container .build-your-game-header {
     margin-bottom: 1.25rem;
+  }
+}
+
+@media (min-width: 767.98px) {
+  #container .build-your-game {
+    height: 40%;
+    width: 70%;
+  }
+  #container .build-your-game-header {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  #container .build-your-game #dropdown {
+    height: 3rem;
+    font-size: 1.25rem;
   }
 }
 /*# sourceMappingURL=main.css.map */
