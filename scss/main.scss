@@ -64,7 +64,7 @@ body {
       margin-bottom: 10px;
     }
 
-    #dropdown {
+    select[name="dropdown"] {
       width: 100%;
       height: 2.5rem;
       text-align: center;
@@ -73,6 +73,17 @@ body {
       border-radius: 10px;
       font-size: 1rem;
     }
+  }
+
+  .start-game {
+    @include fontWeight(400);
+    width: 70%;
+    display: none;
+    margin-top: 2rem;
+    height: 2rem;
+    border: 0.5px solid black;
+    border-radius: 20px;
+    background-color: #4abdac;
   }
 }
 

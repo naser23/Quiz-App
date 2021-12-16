@@ -88,7 +88,7 @@ body {
   margin-bottom: 10px;
 }
 
-#container .build-your-game #dropdown {
+#container .build-your-game select[name="dropdown"] {
   width: 100%;
   height: 2.5rem;
   text-align: center;
@@ -99,7 +99,26 @@ body {
   font-size: 1rem;
 }
 
+#container .start-game {
+  font-family: "Readex Pro", sans-serif;
+  font-weight: 400;
+  width: 70%;
+  display: none;
+  margin-top: 2rem;
+  height: 2rem;
+  border: 0.5px solid black;
+  border-radius: 20px;
+  background-color: #4abdac;
+}
+
 @media (min-width: 567.98px) {
+  #container .quiz-header {
+    margin-bottom: 1rem;
+  }
+  #container .start-game {
+    width: 40%;
+    margin-top: 1rem;
+  }
   #container ::after {
     height: 80%;
     width: 50%;
@@ -119,6 +138,11 @@ body {
     font-size: 3.5rem;
     margin-bottom: 4rem;
   }
+  #container .start-game {
+    font-size: 1.2rem;
+    width: 50%;
+    margin-top: 2rem;
+  }
   #container .build-your-game {
     height: 40%;
     width: 70%;
@@ -127,30 +151,42 @@ body {
     font-size: 2rem;
     margin-bottom: 2rem;
   }
-  #container .build-your-game #dropdown {
+  #container .build-your-game select[name="dropdown"] {
     height: 3rem;
     font-size: 1.25rem;
   }
 }
 
 @media (min-width: 991.98px) {
+  #container ::after {
+    height: 90%;
+  }
   #container .quiz-header {
     letter-spacing: 0.25rem;
+  }
+  #container .start-game {
+    font-size: 1.2rem;
+    width: 40%;
+    margin-top: 2rem;
+    height: 3rem;
   }
   #container .build-your-game {
     height: 40%;
     width: 60%;
   }
-  #container .build-your-game #dropdown {
+  #container .build-your-game select[name="dropdown"] {
     height: 2.5rem;
   }
 }
 
 @media (min-width: 1199.98px) {
+  #container .start-game {
+    width: 20%;
+  }
   #container .build-your-game {
     width: 40%;
   }
-  #container .build-your-game #dropdown {
+  #container .build-your-game select[name="dropdown"] {
     margin-bottom: 1.25rem;
   }
 }
@@ -166,7 +202,7 @@ body {
   #container .build-your-game-header {
     font-size: 1.5rem;
   }
-  #container .build-your-game #dropdown {
+  #container .build-your-game select[name="dropdown"] {
     height: 2.5rem;
   }
 }
@@ -175,15 +211,25 @@ body {
   #container .build-your-game .dropdown-menus {
     width: 80%;
   }
-  #container .build-your-game .dropdown-menus #dropdown {
+  #container .build-your-game .dropdown-menus select[name="dropdown"] {
     border-radius: 10px;
     font-size: 0.85rem;
   }
 }
 
 @media (width: 568px) and (orientation: landscape) {
-  #container .build-your-game #dropdown {
+  #container .quiz-header {
+    margin-bottom: 0.5rem;
+  }
+  #container .build-your-game-header {
+    margin-bottom: 0.5rem;
+  }
+  #container .build-your-game #select[name="dropdown"] {
     height: 2rem;
+  }
+  .start-game {
+    width: 50%;
+    margin-top: 2rem;
   }
 }
 /*# sourceMappingURL=main.css.map */

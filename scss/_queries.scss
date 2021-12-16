@@ -2,6 +2,15 @@
 
 @media (min-width: 567.98px) {
   #container {
+    .quiz-header {
+      margin-bottom: 1rem;
+    }
+
+    .start-game {
+      width: 40%;
+      margin-top: 1rem;
+    }
+
     ::after {
       height: 80%;
       width: 50%;
@@ -25,6 +34,12 @@
       font-size: 3.5rem;
       margin-bottom: 4rem;
     }
+
+    .start-game {
+      font-size: 1.2rem;
+      width: 50%;
+      margin-top: 2rem;
+    }
     .build-your-game {
       height: 40%;
       width: 70%;
@@ -34,7 +49,7 @@
         margin-bottom: 2rem;
       }
 
-      #dropdown {
+      select[name="dropdown"] {
         height: 3rem;
         font-size: 1.25rem;
       }
@@ -44,14 +59,24 @@
 
 @media (min-width: 991.98px) {
   #container {
+    ::after {
+      height: 90%;
+    }
     .quiz-header {
       letter-spacing: 0.25rem;
+    }
+
+    .start-game {
+      font-size: 1.2rem;
+      width: 40%;
+      margin-top: 2rem;
+      height: 3rem;
     }
     .build-your-game {
       height: 40%;
       width: 60%;
 
-      #dropdown {
+      select[name="dropdown"] {
         height: 2.5rem;
       }
     }
@@ -60,10 +85,13 @@
 
 @media (min-width: 1199.98px) {
   #container {
+    .start-game {
+      width: 20%;
+    }
     .build-your-game {
       width: 40%;
 
-      #dropdown {
+      select[name="dropdown"] {
         margin-bottom: 1.25rem;
       }
     }
@@ -86,7 +114,7 @@
         font-size: 1.5rem;
       }
 
-      #dropdown {
+      select[name="dropdown"] {
         height: 2.5rem;
       }
     }
@@ -100,7 +128,7 @@
       .dropdown-menus {
         width: 80%;
 
-        #dropdown {
+        select[name="dropdown"] {
           border-radius: 10px;
           font-size: 0.85rem;
         }
@@ -112,10 +140,21 @@
 // iphone 5/SE landscape
 @media (width: 568px) and (orientation: landscape) {
   #container {
+    .quiz-header {
+      margin-bottom: 0.5rem;
+    }
     .build-your-game {
-      #dropdown {
+      &-header {
+        margin-bottom: 0.5rem;
+      }
+      #select[name="dropdown"] {
         height: 2rem;
       }
     }
+  }
+
+  .start-game {
+    width: 50%;
+    margin-top: 2rem;
   }
 }
