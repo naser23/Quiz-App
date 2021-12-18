@@ -2,32 +2,12 @@
 // global variables
 const selectNum = document.querySelector("#num-of-questions");
 const selectCategory = document.querySelector("#category");
-const questionAmountOptions = document.getElementsByName("dropdown");
-const dropdown = document.getElementsByName("dropdown");
+const selectDifficulty = document.querySelector("#difficulty");
+const selectType = document.querySelector("#type");
 const startGame = document.querySelector(".start-game");
 const options = selectNum.options;
 
 // alert("please select the rules of the game (must select number of questions).");
-
-let apiUrl =
-  "https://opentdb.com/api.php?amount=10&category=24&difficulty=easy&type=boolean";
-
-// fetch(apiUrl)
-//   .then((response) => response.json())
-//   .then(function (data) {
-//     // console.log(data);
-//   });
-
-// fetch list of categories
-
-let categoryUrl = "https://opentdb.com/api_category.php";
-fetch(categoryUrl)
-  .then((response) => response.json())
-  .then(function (data) {
-    console.log(data.trivia_categories);
-    console.log(data);
-    // displayCategoryOptions(data.trivia_categories);
-  });
 
 // display the start game button if the numbe of questions dropbox is updated.
 selectNum.addEventListener("change", optionSelected);
@@ -38,30 +18,54 @@ function optionSelected() {
       : console.log("they are the same.");
   }
 }
+// fetch list of categories
+let categoryUrl = "https://opentdb.com/api_category.php";
+fetch(categoryUrl)
+  .then((response) => response.json())
+  .then(function (data) {
+    let categoryList = data.trivia_categories;
+    displayCategoryOptions(categoryList);
+  });
 
 // creating and displaying all options
-function displayCategoryOptions() {}
+// displaying category options
+function displayCategoryOptions(categories) {
+  for (const item of categories) {
+    createOption("category", item.name, selectCategory);
+  }
+}
 
+// displaying number options
 function displayNumberOfQuestions() {
   for (let i = 1; i < 51; i++) {
     createOption("num-of-questions", i, selectNum);
   }
 }
-
-function displayDifficulty() {
-  let Url = `https://opentdb.com/api.php?amount=1&difficulty=easy`;
-  fetch(Url);
-}
-
-displayDifficulty();
-displayCategoryOptions();
 displayNumberOfQuestions();
 
+// displaying difficulty options
+function displayDifficulty() {
+  let difficultyTypes = ["Easy", "Medium", "Hard"];
+
+  for (const type of difficultyTypes) {
+    createOption("difficulty", type, selectDifficulty);
+  }
+}
+displayDifficulty();
+
+function displayTypeOptions() {
+  let types = ["Multiple Choice", "True/False"];
+  for (const type of types) {
+    createOption("type", type, selectType);
+  }
+}
+displayTypeOptions();
+
 // components for Quiz App
-function createOption(category, data, parentEl) {
+function createOption(type, text, parentEl) {
   let option = document.createElement("option");
   option.setAttribute("name", "dropdown");
-  option.setAttribute("id", category);
-  option.textContent = data;
+  option.setAttribute("id", type);
+  option.textContent = text;
   parentEl.appendChild(option);
 }
