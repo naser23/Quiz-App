@@ -12,10 +12,21 @@ const options = selectNum.options;
 let apiUrl =
   "https://opentdb.com/api.php?amount=10&category=24&difficulty=easy&type=boolean";
 
-fetch(apiUrl)
+// fetch(apiUrl)
+//   .then((response) => response.json())
+//   .then(function (data) {
+//     // console.log(data);
+//   });
+
+// fetch list of categories
+
+let categoryUrl = "https://opentdb.com/api_category.php";
+fetch(categoryUrl)
   .then((response) => response.json())
   .then(function (data) {
-    // console.log(data);
+    console.log(data.trivia_categories);
+    console.log(data);
+    // displayCategoryOptions(data.trivia_categories);
   });
 
 // display the start game button if the numbe of questions dropbox is updated.
@@ -29,18 +40,7 @@ function optionSelected() {
 }
 
 // creating and displaying all options
-function displayCategoryOptions() {
-  for (let i = 9; i < 33; i++) {
-    let unfinishedUrl = `https://opentdb.com/api.php?amount=1&category=${i}`;
-    fetch(unfinishedUrl)
-      .then((response) => response.json())
-      .then(function (data) {
-        data.results.forEach(function (piece) {
-          createOption("category", piece.category, selectCategory);
-        });
-      });
-  }
-}
+function displayCategoryOptions() {}
 
 function displayNumberOfQuestions() {
   for (let i = 1; i < 51; i++) {
