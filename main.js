@@ -31,14 +31,14 @@ fetch(categoryUrl)
 // displaying category options
 function displayCategoryOptions(categories) {
   for (const item of categories) {
-    createOption("category", item.name, selectCategory);
+    createOption("category", item.name, item.name, selectCategory);
   }
 }
 
 // displaying number options
 function displayNumberOfQuestions() {
   for (let i = 1; i < 51; i++) {
-    createOption("num-of-questions", i, selectNum);
+    createOption("num-of-questions", i, i, selectNum);
   }
 }
 displayNumberOfQuestions();
@@ -48,7 +48,7 @@ function displayDifficulty() {
   let difficultyTypes = ["Easy", "Medium", "Hard"];
 
   for (const type of difficultyTypes) {
-    createOption("difficulty", type, selectDifficulty);
+    createOption("difficulty", type, type, selectDifficulty);
   }
 }
 displayDifficulty();
@@ -56,16 +56,27 @@ displayDifficulty();
 function displayTypeOptions() {
   let types = ["Multiple Choice", "True/False"];
   for (const type of types) {
-    createOption("type", type, selectType);
+    createOption("type", type, type, selectType);
   }
 }
 displayTypeOptions();
 
+startGame.addEventListener("click", generateQuestions);
+// gerating url based on user game settings
+function generateQuestions() {
+  let numberOfQuestions = selectNum.value;
+  let category = selectCategory.value;
+  let difficulty = selectDifficulty.value;
+  let type = selectType.value;
+  console.log(numberOfQuestions, category, difficulty, type);
+}
+
 // components for Quiz App
-function createOption(type, text, parentEl) {
+function createOption(type, value, text, parentEl) {
   let option = document.createElement("option");
   option.setAttribute("name", "dropdown");
   option.setAttribute("id", type);
+  option.setAttribute("value", value);
   option.textContent = text;
   parentEl.appendChild(option);
 }
