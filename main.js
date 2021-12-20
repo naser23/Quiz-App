@@ -57,7 +57,6 @@ function displayTypeOptions() {
   let types = ["Multiple", "True/False"];
   for (const type of types) {
     createOption("type", type, type, selectType);
-    console.log(type);
   }
 }
 displayTypeOptions();
@@ -68,7 +67,10 @@ function generateQuestions() {
   let numberOfQuestions = selectNum.value;
   let category = selectCategory.value;
   let difficulty = selectDifficulty.value;
-  let type = selectType.value;
+  let type;
+  selectType.value == "True/False"
+    ? (type = "boolean")
+    : (type = selectType.value);
 
   let completeUrl;
 
@@ -90,11 +92,20 @@ function createOption(type, value, text, parentEl) {
   parentEl.appendChild(option);
 }
 
-fetch("https://opentdb.com/api_count.php?category=10")
-  .then((response) => response.json())
-  .then(function (data) {
-    console.log(data);
-    console.log(data.category_question_count.total_easy_question_count);
-    console.log(data.category_question_count.total_medium_question_count);
-    console.log(data.category_question_count.total_hard_question_count);
-  });
+// fetching the type of questions from any category
+// fetch("https://opentdb.com/api_count.php?category=10&type=boolean")
+//   .then((response) => response.json())
+//   .then(function (data) {
+//     console.log(data);
+//     console.log(data.category_question_count.total_easy_question_count);
+//     console.log(data.category_question_count.total_medium_question_count);
+//     console.log(data.category_question_count.total_hard_question_count);
+//   });
+
+// fetch(
+//   "https://opentdb.com/api.php?amount=3&category=24&difficulty=hard&type=boolean"
+// )
+//   .then((response) => response.json())
+//   .then(function (data) {
+//     console.log(data);
+//   });
