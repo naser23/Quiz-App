@@ -7,9 +7,7 @@ const selectType = document.querySelector("#type");
 const startGame = document.querySelector(".start-game");
 const options = selectNum.options;
 
-// alert("please select the rules of the game (must select number of questions).");
-
-// display the start game button if the numbe of questions dropbox is updated.
+// display the start game button if the number of questions dropbox is updated.
 selectNum.addEventListener("change", optionSelected);
 function optionSelected() {
   for (let i = 1; i < options.length; i++) {
@@ -28,6 +26,7 @@ fetch(categoryUrl)
   });
 
 // creating and displaying all options
+
 // displaying category options
 function displayCategoryOptions(categories) {
   for (const item of categories) {
@@ -54,16 +53,26 @@ function displayDifficulty() {
 displayDifficulty();
 
 startGame.addEventListener("click", () => {
-  generateQuestionCount();
+  // if the player chooses a category and a difficulty
+  if (selectCategory.value !== "" && selectDifficulty.value !== "") {
+    cateAndDiffQuestionCount();
+
+    // if the player chooses a category but not a difficulty
+  } else if (selectCategory.value !== "" && selectDifficulty.value === "") {
+    cateQuestionCount();
+
+    // if the player only chooses the question amount
+  } else generateUrl(selectNum.value);
 });
+
 // gerating url based on user game settings
-function generateQuestionCount() {
+function cateAndDiffQuestionCount() {
   let numberOfQuestions;
-  let category = selectCategory.value;
   let difficulty = selectDifficulty.value;
 
   // comparing the amount of questions the user asked for to the actual amount of questions available in the database. will return the amount asked for if said amount is available.
-  fetch(`https://opentdb.com/api_count.php?category=${category}`)
+
+  fetch(`https://opentdb.com/api_count.php?category=${selectCategory.value}`)
     .then((response) => response.json())
     .then(function (data) {
       console.log(data);
@@ -72,9 +81,35 @@ function generateQuestionCount() {
         `data.category_question_count.total_${difficulty.toLowerCase()}_question_count`
       );
 
-      selectNum.value > questionCount
-        ? (numberOfQuestions = questionCount)
-        : (numberOfQuestions = selectNum.value);
+      if (selectNum.value > questionCount) {
+        numberOfQuestions = questionCount;
+      } else if (selectNum.value < questionCount) {
+        numberOfQuestions = selectNum.value;
+      } else if (selectNum == "") {
+        numberOfQuestions = 10;
+      }
+      return generateUrl(numberOfQuestions);
+    });
+}
+
+function cateQuestionCount() {
+  let numberOfQuestions;
+
+  // comparing the amount of questions the user asked for to the actual amount of questions available in the database. will return the amount asked for if said amount is available.
+  fetch(`https://opentdb.com/api_count.php?category=${selectCategory.value}`)
+    .then((resp) => resp.json())
+    .then(function (data) {
+      console.log(data);
+      let questionCount = data.category_question_count.total_question_count;
+
+      if (selectNum.value > questionCount) {
+        numberOfQuestions = questionCount;
+      } else if (selectNum.value < questionCount) {
+        numberOfQuestions = selectNum.value;
+      } else if (selectNum == "") {
+        numberOfQuestions = 10;
+      }
+
       return generateUrl(numberOfQuestions);
     });
 }
@@ -83,6 +118,23 @@ function generateUrl(questions) {
   let questionCount = questions;
   let category = selectCategory.value;
   let difficulty = selectDifficulty.value;
+  let amountString = `amount=${questionCount}`;
+  let categoryString = `category=${category}`;
+  let difficultyString = `difficulty=${difficulty}`;
+  let partialUrl = "https://opentdb.com/api.php?";
+
+  let valueArr = [questionCount, category, difficulty];
+  let stringArr = [amountString, categoryString, difficultyString];
+
+  // for (const x of valueArr) {
+  //   let index = valueArr.indexOf(x);
+  //   if (x[index] !== "") {
+  //     console.log(x);
+  //   } else {
+  //     console.log("no value");
+  //   }
+  // }
+
   let completeUrl;
   console.log(questionCount, category, difficulty);
 }
@@ -96,13 +148,3 @@ function createOption(type, value, text, parentEl) {
   option.textContent = text;
   parentEl.appendChild(option);
 }
-
-// fetching the type of questions from any category
-
-// fetch(
-//   "https://opentdb.com/api.php?&amount=all&category=24&difficulty=hard&type=boolean"
-// )
-//   .then((response) => response.json())
-//   .then(function (data) {
-//     console.log(data);
-//   });
