@@ -53,33 +53,38 @@ function displayDifficulty() {
 }
 displayDifficulty();
 
-function displayTypeOptions() {
-  let types = ["Multiple", "True/False"];
-  for (const type of types) {
-    createOption("type", type, type, selectType);
-  }
-}
-displayTypeOptions();
-
-startGame.addEventListener("click", generateQuestions);
+startGame.addEventListener("click", () => {
+  generateQuestionCount();
+});
 // gerating url based on user game settings
-function generateQuestions() {
-  let numberOfQuestions = selectNum.value;
+function generateQuestionCount() {
+  let numberOfQuestions;
   let category = selectCategory.value;
   let difficulty = selectDifficulty.value;
-  let type;
-  selectType.value == "True/False"
-    ? (type = "boolean")
-    : (type = selectType.value);
 
+  // comparing the amount of questions the user asked for to the actual amount of questions available in the database. will return the amount asked for if said amount is available.
+  fetch(`https://opentdb.com/api_count.php?category=${category}`)
+    .then((response) => response.json())
+    .then(function (data) {
+      console.log(data);
+
+      let questionCount = eval(
+        `data.category_question_count.total_${difficulty.toLowerCase()}_question_count`
+      );
+
+      selectNum.value > questionCount
+        ? (numberOfQuestions = questionCount)
+        : (numberOfQuestions = selectNum.value);
+      return generateUrl(numberOfQuestions);
+    });
+}
+
+function generateUrl(questions) {
+  let questionCount = questions;
+  let category = selectCategory.value;
+  let difficulty = selectDifficulty.value;
   let completeUrl;
-
-  if (type !== "" && category !== "" && difficulty !== "") {
-    completeUrl = `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty.toLowerCase()}&type=${type.toLowerCase()}`;
-    console.log(completeUrl);
-  }
-
-  console.log(numberOfQuestions, category, difficulty, type);
+  console.log(questionCount, category, difficulty);
 }
 
 // components for Quiz App
@@ -93,17 +98,9 @@ function createOption(type, value, text, parentEl) {
 }
 
 // fetching the type of questions from any category
-// fetch("https://opentdb.com/api_count.php?category=10&type=boolean")
-//   .then((response) => response.json())
-//   .then(function (data) {
-//     console.log(data);
-//     console.log(data.category_question_count.total_easy_question_count);
-//     console.log(data.category_question_count.total_medium_question_count);
-//     console.log(data.category_question_count.total_hard_question_count);
-//   });
 
 // fetch(
-//   "https://opentdb.com/api.php?amount=3&category=24&difficulty=hard&type=boolean"
+//   "https://opentdb.com/api.php?&amount=all&category=24&difficulty=hard&type=boolean"
 // )
 //   .then((response) => response.json())
 //   .then(function (data) {
