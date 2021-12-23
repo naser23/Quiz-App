@@ -25,7 +25,7 @@ fetch(categoryUrl)
     displayCategoryOptions(categoryList);
   });
 
-// creating and displaying all options
+// creating and displaying all options //
 
 // displaying category options
 function displayCategoryOptions(categories) {
@@ -52,16 +52,17 @@ function displayDifficulty() {
 }
 displayDifficulty();
 
+// starting the game depending on player input
 startGame.addEventListener("click", () => {
   // if the player chooses a category and a difficulty
   if (selectCategory.value !== "" && selectDifficulty.value !== "") {
     cateAndDiffQuestionCount();
 
     // if the player chooses a category but not a difficulty
-  } else if (selectCategory.value !== "" && selectDifficulty.value === "") {
+  } else if (selectCategory.value !== "" && selectDifficulty.value == "") {
     cateQuestionCount();
 
-    // if the player only chooses the question amount
+    // if the player only chooses the question amount and/or difficulty
   } else generateUrl(selectNum.value);
 });
 
@@ -75,8 +76,6 @@ function cateAndDiffQuestionCount() {
   fetch(`https://opentdb.com/api_count.php?category=${selectCategory.value}`)
     .then((response) => response.json())
     .then(function (data) {
-      console.log(data);
-
       let questionCount = eval(
         `data.category_question_count.total_${difficulty.toLowerCase()}_question_count`
       );
@@ -99,7 +98,6 @@ function cateQuestionCount() {
   fetch(`https://opentdb.com/api_count.php?category=${selectCategory.value}`)
     .then((resp) => resp.json())
     .then(function (data) {
-      console.log(data);
       let questionCount = data.category_question_count.total_question_count;
 
       if (selectNum.value > questionCount) {
@@ -120,23 +118,45 @@ function generateUrl(questions) {
   let difficulty = selectDifficulty.value;
   let amountString = `amount=${questionCount}`;
   let categoryString = `category=${category}`;
-  let difficultyString = `difficulty=${difficulty}`;
-  let partialUrl = "https://opentdb.com/api.php?";
+  let difficultyString = `difficulty=${difficulty.toLowerCase()}`;
+  let Url = "https://opentdb.com/api.php?";
 
   let valueArr = [questionCount, category, difficulty];
   let stringArr = [amountString, categoryString, difficultyString];
 
-  // for (const x of valueArr) {
-  //   let index = valueArr.indexOf(x);
-  //   if (x[index] !== "") {
-  //     console.log(x);
-  //   } else {
-  //     console.log("no value");
-  //   }
-  // }
+  for (const x of valueArr) {
+    let index = valueArr.indexOf(x);
+    if (x !== "") {
+      Url += stringArr[index] + "&";
+    } else if (x == "") {
+      Url;
+    }
+  }
+  return generateQuestions(Url);
+}
 
-  let completeUrl;
-  console.log(questionCount, category, difficulty);
+function generateQuestions(url) {
+  let gameUrl = url;
+  fetch(gameUrl)
+    .then((resp) => resp.json())
+    .then(function (data) {
+      data.results.forEach(function (question) {
+        new Question(question);
+      });
+    });
+}
+
+// constructor fuction that will be used for creating questions
+function Question(question) {
+  {
+    this.category = question.category;
+    this.correctAnswer = question.correct_answer;
+    this.difficulty = question.difficulty;
+    this.incorrectAnswers = question.incorrect_answers;
+    this.question = question.question;
+    this.type = question.type;
+  }
+  console.log(this);
 }
 
 // components for Quiz App
