@@ -5,6 +5,7 @@ const selectCategory = document.querySelector("#category");
 const selectDifficulty = document.querySelector("#difficulty");
 const selectType = document.querySelector("#type");
 const startGame = document.querySelector(".start-game");
+const container = document.querySelector("#container");
 const options = selectNum.options;
 
 // display the start game button if the number of questions dropbox is updated.
@@ -54,6 +55,10 @@ displayDifficulty();
 
 // starting the game depending on player input
 startGame.addEventListener("click", () => {
+  searchSpecificCriteria();
+});
+
+function searchSpecificCriteria() {
   // if the player chooses a category and a difficulty
   if (selectCategory.value !== "" && selectDifficulty.value !== "") {
     cateAndDiffQuestionCount();
@@ -64,7 +69,7 @@ startGame.addEventListener("click", () => {
 
     // if the player only chooses the question amount and/or difficulty
   } else generateUrl(selectNum.value);
-});
+}
 
 // gerating url based on user game settings
 function cateAndDiffQuestionCount() {
@@ -156,10 +161,10 @@ function Question(question) {
     this.question = question.question;
     this.type = question.type;
   }
-  console.log(this);
+  console.log(this.question);
 }
 
-// components for Quiz App
+// components for Quiz App //
 function createOption(type, value, text, parentEl) {
   let option = document.createElement("option");
   option.setAttribute("name", "dropdown");
@@ -167,4 +172,43 @@ function createOption(type, value, text, parentEl) {
   option.setAttribute("value", value);
   option.textContent = text;
   parentEl.appendChild(option);
+}
+
+// components for actual quiz game
+function createQuestionHeader() {
+  let header = document.createElement("h2");
+  header.classList.add("question-header");
+  header.textContent =
+    "What is the answer to this question that I'm asking you?";
+  container.appendChild(header);
+  console.log(header);
+  return header;
+}
+createQuestionHeader();
+
+function answerChoicesSection() {
+  let section = document.createElement("section");
+  section.classList.add("answer-choice-section");
+
+  let answer1 = createAnswerChoice();
+  let answer2 = createAnswerChoice();
+  let answer3 = createAnswerChoice();
+  let answer4 = createAnswerChoice();
+
+  section.appendChild(answer1);
+  section.appendChild(answer2);
+  section.appendChild(answer3);
+  section.appendChild(answer4);
+
+  container.appendChild(section);
+  console.log(section);
+  return section;
+}
+answerChoicesSection();
+
+function createAnswerChoice() {
+  let answerChoice = document.createElement("p");
+  answerChoice.classList.add("answer-choice");
+  answerChoice.textContent = "Pick Me";
+  return answerChoice;
 }

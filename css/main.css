@@ -49,6 +49,7 @@ body {
   color: white;
   font-size: 1.75rem;
   margin-bottom: 2rem;
+  display: none;
 }
 
 #container .build-your-game {
@@ -69,6 +70,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  display: none;
 }
 
 #container .build-your-game-header {
@@ -111,6 +113,78 @@ body {
   background-color: #4abdac;
 }
 
+#container .question-header {
+  color: white;
+  text-align: center;
+  font-size: 1.75rem;
+  font-family: "Readex Pro", sans-serif;
+  font-weight: 500;
+}
+
+#container .answer-choice-section {
+  width: 90%;
+  height: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+#container .answer-choice-section .answer-choice {
+  width: 90%;
+  height: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #4abdac;
+  color: white;
+  border-radius: 15px;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+#container .answer-choice-section .answer-choice:hover {
+  background-color: #303030;
+}
+
+@-webkit-keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+  to {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+  to {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
 @media (min-width: 567.98px) {
   #container .quiz-header {
     margin-bottom: 1rem;
@@ -130,6 +204,17 @@ body {
   }
   #container .build-your-game-header {
     margin-bottom: 1rem;
+  }
+  #container .answer-choice-section {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  #container .answer-choice-section .answer-choice {
+    width: 45%;
   }
 }
 
@@ -155,6 +240,14 @@ body {
     height: 3rem;
     font-size: 1.25rem;
   }
+  #container .question-header {
+    margin: 0 10%;
+    font-size: 2rem;
+  }
+  #container .answer-choice-section .answer-choice {
+    height: 8rem;
+    font-size: 1.5rem;
+  }
 }
 
 @media (min-width: 991.98px) {
@@ -176,6 +269,12 @@ body {
   }
   #container .build-your-game select[name="dropdown"] {
     height: 2.5rem;
+  }
+  #container .question-header {
+    font-size: 2.25rem;
+  }
+  #container .answer-choice-section .answer-choice {
+    height: 10rem;
   }
 }
 

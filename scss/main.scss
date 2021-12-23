@@ -33,10 +33,12 @@ body {
     z-index: -1;
   }
 
+  // Build Your Game Section //
   .quiz-header {
     color: white;
     font-size: 1.75rem;
     margin-bottom: 2rem;
+    display: none;
   }
 
   .build-your-game {
@@ -48,6 +50,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    display: none;
 
     &-header {
       color: white;
@@ -84,6 +87,52 @@ body {
     border: 0.5px solid black;
     border-radius: 20px;
     background-color: #4abdac;
+  }
+
+  // Quiz game styling //
+  .question-header {
+    color: white;
+    text-align: center;
+    font-size: 1.75rem;
+    @include fontWeight(500);
+  }
+
+  .answer-choice-section {
+    width: 90%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 20px;
+
+    .answer-choice {
+      width: 90%;
+      height: 5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #4abdac;
+      color: white;
+      border-radius: 15px;
+      transition: background-color 0.3s ease;
+    }
+    .answer-choice:hover {
+      background-color: #303030;
+    }
+  }
+}
+
+// just thinking of ideas for animations
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0;
+    width: 100%;
   }
 }
 
