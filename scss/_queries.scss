@@ -33,6 +33,13 @@
         width: 45%;
       }
     }
+    .game-over-header {
+      letter-spacing: 0.25rem;
+    }
+    .score-box {
+      width: 60%;
+      letter-spacing: 0.15rem;
+    }
   }
 }
 
@@ -73,6 +80,14 @@
         font-size: 1.5rem;
       }
     }
+
+    .game-over-header {
+      letter-spacing: 0.15rem;
+      font-size: 2.5rem;
+    }
+    .score-box {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -107,6 +122,9 @@
         height: 10rem;
       }
     }
+    .score-box {
+      width: 50%;
+    }
   }
 }
 
@@ -121,6 +139,13 @@
       select[name="dropdown"] {
         margin-bottom: 1.25rem;
       }
+    }
+    .game-over-header {
+      font-size: 3rem;
+    }
+    .score-box {
+      width: 40%;
+      height: 15%;
     }
   }
 }

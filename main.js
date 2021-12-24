@@ -184,7 +184,7 @@ function createQuestionHeader() {
   console.log(header);
   return header;
 }
-createQuestionHeader();
+// createQuestionHeader();
 
 function answerChoicesSection() {
   let section = document.createElement("section");
@@ -204,11 +204,30 @@ function answerChoicesSection() {
   console.log(section);
   return section;
 }
-answerChoicesSection();
+// answerChoicesSection();
 
 function createAnswerChoice() {
   let answerChoice = document.createElement("p");
   answerChoice.classList.add("answer-choice");
-  answerChoice.textContent = "Pick Me";
+  answerChoice.textContent = "this is an answer choice to the question";
   return answerChoice;
 }
+
+// Game Over Screen //
+function gameOverHeader() {
+  let header = document.createElement("h2");
+  header.classList.add("game-over-header");
+  header.textContent = "Game Over";
+  container.appendChild(header);
+  return header;
+}
+gameOverHeader();
+
+function scoreBox() {
+  let scoreBox = document.createElement("p");
+  scoreBox.classList.add("score-box");
+  scoreBox.textContent = "Your Score: 0/10";
+  container.appendChild(scoreBox);
+  return scoreBox;
+}
+scoreBox();

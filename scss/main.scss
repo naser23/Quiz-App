@@ -94,6 +94,7 @@ body {
     color: white;
     text-align: center;
     font-size: 1.75rem;
+    margin: 0 10px;
     @include fontWeight(500);
   }
 
@@ -112,6 +113,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
+      text-align: center;
       background-color: #4abdac;
       color: white;
       border-radius: 15px;
@@ -120,6 +122,27 @@ body {
     .answer-choice:hover {
       background-color: #303030;
     }
+  }
+
+  .game-over-header {
+    font-size: 2.25rem;
+    color: white;
+    margin-bottom: 2rem;
+    @include fontWeight(500);
+  }
+
+  .score-box {
+    font-size: 1.25rem;
+    width: 70%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4abdac;
+    color: white;
+    @include fontWeight(500);
+    margin: 3rem 0;
+    border-radius: 15px;
   }
 }
 
