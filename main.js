@@ -6,7 +6,10 @@ const selectDifficulty = document.querySelector("#difficulty");
 const selectType = document.querySelector("#type");
 const startGame = document.querySelector(".start-game");
 const container = document.querySelector("#container");
+const quizHeader = document.querySelector(".quiz-header");
+const buildGame = document.querySelector(".build-your-game");
 const options = selectNum.options;
+let counter = 0;
 
 // display the start game button if the number of questions dropbox is updated.
 selectNum.addEventListener("change", optionSelected);
@@ -145,23 +148,42 @@ function generateQuestions(url) {
   fetch(gameUrl)
     .then((resp) => resp.json())
     .then(function (data) {
-      data.results.forEach(function (question) {
-        new Question(question);
-      });
+      beginGame(data.results);
     });
 }
 
 // constructor fuction that will be used for creating questions
-function Question(question) {
-  {
-    this.category = question.category;
-    this.correctAnswer = question.correct_answer;
-    this.difficulty = question.difficulty;
-    this.incorrectAnswers = question.incorrect_answers;
-    this.question = question.question;
-    this.type = question.type;
+// function Question(question) {
+//   {
+//     this.category = question.category;
+//     this.correctAnswer = question.correct_answer;
+//     this.difficulty = question.difficulty;
+//     this.incorrectAnswers = question.incorrect_answers;
+//     this.question = question.question;
+//     this.type = question.type;
+//   }
+// }
+
+function beginGame(questions) {
+  startGame.style.display = "none";
+  buildGame.style.display = "none";
+  quizHeader.style.display = "none";
+  let answersArr = [];
+  let random = answersArr[Math.floor(Math.random() * questions.length)];
+
+  let questionTotal = questions.length;
+
+  if (counter < questionTotal) {
+    answersArr.push(...questions[counter].incorrect_answers);
+    answersArr.push(questions[counter].correct_answer);
+    let header = createQuestionHeader(questions[counter].question);
+
+    let answers = answerChoicesSection(
+      answersArr[Math.floor(Math.random() * questions.length)]
+    );
+  } else {
+    console.log("All done");
   }
-  console.log(this.question);
 }
 
 // components for Quiz App //
@@ -175,25 +197,24 @@ function createOption(type, value, text, parentEl) {
 }
 
 // components for actual quiz game
-function createQuestionHeader() {
+function createQuestionHeader(text) {
   let header = document.createElement("h2");
   header.classList.add("question-header");
-  header.textContent =
-    "What is the answer to this question that I'm asking you?";
+  header.textContent = text;
   container.appendChild(header);
   console.log(header);
   return header;
 }
 // createQuestionHeader();
 
-function answerChoicesSection() {
+function answerChoicesSection(question) {
   let section = document.createElement("section");
   section.classList.add("answer-choice-section");
 
-  let answer1 = createAnswerChoice();
-  let answer2 = createAnswerChoice();
-  let answer3 = createAnswerChoice();
-  let answer4 = createAnswerChoice();
+  let answer1 = createAnswerChoice(question);
+  let answer2 = createAnswerChoice(question);
+  let answer3 = createAnswerChoice(question);
+  let answer4 = createAnswerChoice(question);
 
   section.appendChild(answer1);
   section.appendChild(answer2);
@@ -206,10 +227,10 @@ function answerChoicesSection() {
 }
 // answerChoicesSection();
 
-function createAnswerChoice() {
+function createAnswerChoice(question) {
   let answerChoice = document.createElement("p");
   answerChoice.classList.add("answer-choice");
-  answerChoice.textContent = "this is an answer choice to the question";
+  answerChoice.textContent = question;
   return answerChoice;
 }
 
@@ -221,7 +242,6 @@ function gameOverHeader() {
   container.appendChild(header);
   return header;
 }
-gameOverHeader();
 
 function scoreBox() {
   let scoreBox = document.createElement("p");
@@ -230,4 +250,3 @@ function scoreBox() {
   container.appendChild(scoreBox);
   return scoreBox;
 }
-scoreBox();
