@@ -10,6 +10,7 @@ const quizHeader = document.querySelector(".quiz-header");
 const buildGame = document.querySelector(".build-your-game");
 const options = selectNum.options;
 let counter = 0;
+let score = 0;
 
 // display the start game button if the number of questions dropbox is updated.
 selectNum.addEventListener("change", optionSelected);
@@ -152,7 +153,7 @@ function generateQuestions(url) {
     });
 }
 
-// for shuffling the answers before displaying themo onto the screen
+// for shuffling the answers before displaying them onto the screen
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -182,25 +183,42 @@ function displayQuestions(questions) {
   let questionTotal = questions.length;
   let header = createQuestionHeader(questions[counter].question);
   let section = answerChoicesSection();
-  let choice;
+  let correctAnswer = questions[counter].correct_answer;
   let answersArr = [];
+  let choice;
+  answersArr.splice(0);
 
-  answersArr.push(...questions[counter].incorrect_answers);
-  answersArr.push(questions[counter].correct_answer);
+  answersArr.push(
+    ...questions[counter].incorrect_answers,
+    questions[counter].correct_answer
+  );
   shuffle(answersArr);
 
   for (const ans of answersArr) {
-    choice = createAnswerChoice(ans);
+    choice = createAnswerChoice(ans, correctAnswer, questions);
     section.appendChild(choice);
-  }
-
-  if (counter < questionTotal) {
-  } else {
-    console.log("All done");
   }
 }
 
-// components for Quiz App //
+// checking answer and changing color
+function answerChecker(question, choiceText, choiceEl, questions) {
+  let correctAnswer = question;
+  let choiceElement = choiceEl;
+  let questionList = questions;
+
+  if (choiceText == correctAnswer) {
+    counter++;
+    score++;
+    choiceElement.style.backgroundColor = "	#00FF00";
+    setTimeout(() => displayQuestions(questionList), 1000);
+  } else if (choiceText !== correctAnswer) {
+    counter++;
+    choiceElement.style.backgroundColor = "	#ff0000";
+    setTimeout(() => displayQuestions(questionList), 1000);
+  }
+}
+
+//// COMPONENTS FOR QUIZ APP ////
 function createOption(type, value, text, parentEl) {
   let option = document.createElement("option");
   option.setAttribute("name", "dropdown");
@@ -216,37 +234,23 @@ function createQuestionHeader(text) {
   header.classList.add("question-header");
   header.textContent = text;
   container.appendChild(header);
-  console.log(header);
   return header;
 }
-// createQuestionHeader();
 
 function answerChoicesSection() {
   let section = document.createElement("section");
   section.classList.add("answer-choice-section");
 
-  // let answer1 = createAnswerChoice(question);
-  // let answer2 = createAnswerChoice(question);
-  // let answer3 = createAnswerChoice(question);
-  // let answer4 = createAnswerChoice(question);
-
-  // section.appendChild(answer1);
-  // section.appendChild(answer2);
-  // section.appendChild(answer3);
-  // section.appendChild(answer4);
-
   container.appendChild(section);
-  console.log(section);
   return section;
 }
 
-function createAnswerChoice(question) {
+function createAnswerChoice(question, correctAnswer, questions) {
   let answerChoice = document.createElement("p");
   answerChoice.classList.add("answer-choice");
   answerChoice.textContent = question;
-  answerChoice.onclick = () => {
-    console.log(answerChoice.textContent);
-  };
+  answerChoice.onclick = () =>
+    answerChecker(question, correctAnswer, answerChoice, questions);
   return answerChoice;
 }
 
