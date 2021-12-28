@@ -152,35 +152,49 @@ function generateQuestions(url) {
     });
 }
 
-// constructor fuction that will be used for creating questions
-// function Question(question) {
-//   {
-//     this.category = question.category;
-//     this.correctAnswer = question.correct_answer;
-//     this.difficulty = question.difficulty;
-//     this.incorrectAnswers = question.incorrect_answers;
-//     this.question = question.question;
-//     this.type = question.type;
-//   }
-// }
+// for shuffling the answers before displaying themo onto the screen
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+}
 
 function beginGame(questions) {
+  console.log(questions[counter]);
   startGame.style.display = "none";
   buildGame.style.display = "none";
   quizHeader.style.display = "none";
-  let answersArr = [];
-  let random = answersArr[Math.floor(Math.random() * questions.length)];
 
+  displayQuestions(questions);
+}
+
+function displayQuestions(questions) {
   let questionTotal = questions.length;
+  let header = createQuestionHeader(questions[counter].question);
+  let section = answerChoicesSection();
+  let choice;
+  let answersArr = [];
+
+  answersArr.push(...questions[counter].incorrect_answers);
+  answersArr.push(questions[counter].correct_answer);
+  shuffle(answersArr);
+
+  for (const ans of answersArr) {
+    choice = createAnswerChoice(ans);
+    section.appendChild(choice);
+  }
 
   if (counter < questionTotal) {
-    answersArr.push(...questions[counter].incorrect_answers);
-    answersArr.push(questions[counter].correct_answer);
-    let header = createQuestionHeader(questions[counter].question);
-
-    let answers = answerChoicesSection(
-      answersArr[Math.floor(Math.random() * questions.length)]
-    );
   } else {
     console.log("All done");
   }
@@ -207,30 +221,32 @@ function createQuestionHeader(text) {
 }
 // createQuestionHeader();
 
-function answerChoicesSection(question) {
+function answerChoicesSection() {
   let section = document.createElement("section");
   section.classList.add("answer-choice-section");
 
-  let answer1 = createAnswerChoice(question);
-  let answer2 = createAnswerChoice(question);
-  let answer3 = createAnswerChoice(question);
-  let answer4 = createAnswerChoice(question);
+  // let answer1 = createAnswerChoice(question);
+  // let answer2 = createAnswerChoice(question);
+  // let answer3 = createAnswerChoice(question);
+  // let answer4 = createAnswerChoice(question);
 
-  section.appendChild(answer1);
-  section.appendChild(answer2);
-  section.appendChild(answer3);
-  section.appendChild(answer4);
+  // section.appendChild(answer1);
+  // section.appendChild(answer2);
+  // section.appendChild(answer3);
+  // section.appendChild(answer4);
 
   container.appendChild(section);
   console.log(section);
   return section;
 }
-// answerChoicesSection();
 
 function createAnswerChoice(question) {
   let answerChoice = document.createElement("p");
   answerChoice.classList.add("answer-choice");
   answerChoice.textContent = question;
+  answerChoice.onclick = () => {
+    console.log(answerChoice.textContent);
+  };
   return answerChoice;
 }
 
