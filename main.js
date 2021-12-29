@@ -171,7 +171,6 @@ function shuffle(array) {
 }
 
 function beginGame(questions) {
-  console.log(questions[counter]);
   startGame.style.display = "none";
   buildGame.style.display = "none";
   quizHeader.style.display = "none";
@@ -181,41 +180,74 @@ function beginGame(questions) {
 
 function displayQuestions(questions) {
   let questionTotal = questions.length;
-  let header = createQuestionHeader(questions[counter].question);
-  let section = answerChoicesSection();
+  let currentQuestion = questions[counter];
   let correctAnswer = questions[counter].correct_answer;
+  let incorrectAnswers = questions[counter].incorrect_answers;
   let answersArr = [];
-  let choice;
-  answersArr.splice(0);
 
-  answersArr.push(
-    ...questions[counter].incorrect_answers,
-    questions[counter].correct_answer
-  );
+  answersArr.push(...incorrectAnswers);
+  answersArr.push(correctAnswer);
   shuffle(answersArr);
 
+  const header = createQuestionHeader(questions[counter].question);
+  const section = answerChoicesSection();
+  let choice;
+
   for (const ans of answersArr) {
-    choice = createAnswerChoice(ans, correctAnswer, questions);
+    let choice = createAnswerChoice(
+      ans,
+      correctAnswer,
+      section,
+      header,
+      questions
+    );
     section.appendChild(choice);
   }
+
+  console.log(`Question  #${counter + 1}`);
+  console.log(answersArr);
+  console.log(`score: ${score}, counter: ${counter}`);
 }
 
 // checking answer and changing color
-function answerChecker(question, choiceText, choiceEl, questions) {
-  let correctAnswer = question;
-  let choiceElement = choiceEl;
-  let questionList = questions;
+function answerChecker(correctAnswer, section, header, questions, choice) {
+  const choiceEl = choice;
+  const answer = correctAnswer;
+  const answerSection = section;
+  const questionEl = header;
+  const data = questions;
+  let position = counter + 1;
 
-  if (choiceText == correctAnswer) {
+  if (choiceEl.textContent == answer && position < questions.length) {
     counter++;
     score++;
-    choiceElement.style.backgroundColor = "	#00FF00";
-    setTimeout(() => displayQuestions(questionList), 1000);
-  } else if (choiceText !== correctAnswer) {
+    choiceEl.style.backgroundColor = "#00FF00";
+    setTimeout(function () {
+      updateQuestions(questionEl, answerSection), displayQuestions(data);
+    }, 1000);
+  } else if (choiceEl.textContent !== answer && position < questions.length) {
     counter++;
-    choiceElement.style.backgroundColor = "	#ff0000";
-    setTimeout(() => displayQuestions(questionList), 1000);
+    choiceEl.style.backgroundColor = "#ff0000";
+    setTimeout(function () {
+      updateQuestions(questionEl, answerSection), displayQuestions(data);
+    }, 1000);
+  } else {
+    setTimeout(() => updateQuestions(questionEl, answerSection), 1000);
+    setTimeout(function () {
+      let gameOver = gameOverHeader();
+      let score = scoreBox(questions.length);
+    }, 1000);
   }
+}
+
+// condition for setTimeout in answerChecker
+function updateQuestions(questionEl, answerSection) {
+  let choices = document.querySelectorAll(".answer-choice");
+  for (const x of choices) {
+    answerSection.removeChild(x);
+  }
+  container.removeChild(questionEl);
+  container.removeChild(answerSection);
 }
 
 //// COMPONENTS FOR QUIZ APP ////
@@ -245,12 +277,12 @@ function answerChoicesSection() {
   return section;
 }
 
-function createAnswerChoice(question, correctAnswer, questions) {
+function createAnswerChoice(ans, correctAnswer, section, header, questions) {
   let answerChoice = document.createElement("p");
   answerChoice.classList.add("answer-choice");
-  answerChoice.textContent = question;
+  answerChoice.textContent = ans;
   answerChoice.onclick = () =>
-    answerChecker(question, correctAnswer, answerChoice, questions);
+    answerChecker(correctAnswer, section, header, questions, answerChoice);
   return answerChoice;
 }
 
@@ -263,10 +295,10 @@ function gameOverHeader() {
   return header;
 }
 
-function scoreBox() {
+function scoreBox(questionTotal) {
   let scoreBox = document.createElement("p");
   scoreBox.classList.add("score-box");
-  scoreBox.textContent = "Your Score: 0/10";
+  scoreBox.textContent = `Your Score ${score}/${questionTotal}`;
   container.appendChild(scoreBox);
   return scoreBox;
 }
