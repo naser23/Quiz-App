@@ -141,6 +141,7 @@ function generateUrl(questions) {
       Url;
     }
   }
+
   return generateQuestions(Url);
 }
 
@@ -170,6 +171,24 @@ function shuffle(array) {
   return array;
 }
 
+// getting rid of the weird characters in the questions
+function replaceWeirdStrings(str) {
+  const findQuote = /&quot;/g;
+  const findApostrophe = /&#039;/g;
+  const findUmlaut = /&ouml;/g;
+  const findAmp = /&amp;/g;
+  const findCircumflex = /&ocirc;/g;
+  const weirdCharacters = /[A-zÀ-ÿ]/g;
+
+  const fixQuotes = str.replace(findQuote, "''");
+  const fixApostrophe = fixQuotes.replace(findApostrophe, "'");
+  const fixUmlaut = fixApostrophe.replace(findUmlaut, "ö");
+  const fixAmp = fixUmlaut.replace(findAmp, "&");
+  const fixCircumflex = fixAmp.replace(findCircumflex, "^");
+
+  return fixCircumflex;
+}
+
 function beginGame(questions) {
   startGame.style.display = "none";
   buildGame.style.display = "none";
@@ -183,19 +202,24 @@ function displayQuestions(questions) {
   let currentQuestion = questions[counter];
   let correctAnswer = questions[counter].correct_answer;
   let incorrectAnswers = questions[counter].incorrect_answers;
+  let rawQuestion = questions[counter].question;
+  let fixedQuestion = replaceWeirdStrings(rawQuestion);
   let answersArr = [];
 
   answersArr.push(...incorrectAnswers);
   answersArr.push(correctAnswer);
   shuffle(answersArr);
 
-  const header = createQuestionHeader(questions[counter].question);
+  console.log(rawQuestion);
+
+  const header = createQuestionHeader(fixedQuestion);
   const section = answerChoicesSection();
   let choice;
 
   for (const ans of answersArr) {
+    let fixedAns = replaceWeirdStrings(ans);
     let choice = createAnswerChoice(
-      ans,
+      fixedAns,
       correctAnswer,
       section,
       header,
@@ -205,7 +229,6 @@ function displayQuestions(questions) {
   }
 
   console.log(`Question  #${counter + 1}`);
-  console.log(answersArr);
   console.log(`score: ${score}, counter: ${counter}`);
 }
 
@@ -217,21 +240,30 @@ function answerChecker(correctAnswer, section, header, questions, choice) {
   const questionEl = header;
   const data = questions;
   let position = counter + 1;
+  let moreQuestionsLeft = position < questions.length;
 
-  if (choiceEl.textContent == answer && position < questions.length) {
+  if (choiceEl.textContent == answer && moreQuestionsLeft) {
     counter++;
     score++;
     choiceEl.style.backgroundColor = "#00FF00";
     setTimeout(function () {
       updateQuestions(questionEl, answerSection), displayQuestions(data);
     }, 1000);
-  } else if (choiceEl.textContent !== answer && position < questions.length) {
+  } else if (choiceEl.textContent !== answer && moreQuestionsLeft) {
     counter++;
     choiceEl.style.backgroundColor = "#ff0000";
     setTimeout(function () {
       updateQuestions(questionEl, answerSection), displayQuestions(data);
     }, 1000);
-  } else {
+  } else if (choiceEl.textContent == answer && !moreQuestionsLeft) {
+    choiceEl.style.backgroundColor = "#00FF00";
+    setTimeout(() => updateQuestions(questionEl, answerSection), 1000);
+    setTimeout(function () {
+      let gameOver = gameOverHeader();
+      let score = scoreBox(questions.length);
+    }, 1000);
+  } else if (choiceEl.textContent !== answer && !moreQuestionsLeft) {
+    choiceEl.style.backgroundColor = "#ff0000";
     setTimeout(() => updateQuestions(questionEl, answerSection), 1000);
     setTimeout(function () {
       let gameOver = gameOverHeader();
