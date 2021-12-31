@@ -229,7 +229,6 @@ function displayQuestions(questions) {
 
     section.appendChild(choice);
   }
-
   console.log(`Question  #${counter + 1}`);
   console.log(`score: ${score}, counter: ${counter}`);
 }
@@ -245,11 +244,13 @@ function answerChecker(correctAnswer, section, header, questions, choice) {
   let moreQuestionsLeft = position < questions.length;
 
   if (choiceEl.textContent == answer) {
+    disableButton();
     counter++;
     score++;
     choiceEl.style.backgroundColor = "#00FF00";
     setTimeout(() => updateQuestions(questionEl, answerSection, data), 1000);
   } else if (choiceEl.textContent !== answer) {
+    disableButton();
     counter++;
     choiceEl.style.backgroundColor = "#ff0000";
     setTimeout(() => updateQuestions(questionEl, answerSection, data), 1000);
@@ -274,6 +275,14 @@ function updateQuestions(questionEl, answerSection, data) {
   }
 
   console.log(position, data.length);
+}
+
+// disables onclick function after one click
+function disableButton() {
+  const htmlAnswerChoices = document.querySelectorAll(".answer-choice");
+  for (const choice of htmlAnswerChoices) {
+    choice.onclick = null;
+  }
 }
 
 //// COMPONENTS FOR QUIZ APP ////
