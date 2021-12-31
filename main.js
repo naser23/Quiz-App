@@ -121,6 +121,7 @@ function cateQuestionCount() {
     });
 }
 
+// generates the url that will be fetched when the game begins but with base64 encoding
 function generateUrl(questions) {
   let questionCount = questions;
   let category = selectCategory.value;
@@ -157,7 +158,6 @@ function generateQuestions(url) {
 }
 
 // for decoding the url from base64 to utf8
-
 function stringDecoder(str) {
   const utf8 = atob(str);
   return utf8;
@@ -165,7 +165,6 @@ function stringDecoder(str) {
 
 function replaceWeirdStrings(str) {
   const regex = /Ã/g;
-
   const newStr = str.replace(regex, "Ü");
   return newStr;
 }
@@ -202,14 +201,14 @@ function beginGame(questions) {
 }
 
 function displayQuestions(questions) {
-  let questionTotal = questions.length;
-  let currentQuestion = questions[counter];
-  let correctAnswer = questions[counter].correct_answer;
+  const questionTotal = questions.length;
+  const currentQuestion = questions[counter];
+  const correctAnswer = questions[counter].correct_answer;
   const fixedCorrectAnswer = replaceWeirdStrings(stringDecoder(correctAnswer));
-  let incorrectAnswers = questions[counter].incorrect_answers;
-  let rawQuestion = questions[counter].question;
-  let fixedQuestion = replaceWeirdStrings(stringDecoder(rawQuestion));
-  let answersArr = [];
+  const incorrectAnswers = questions[counter].incorrect_answers;
+  const rawQuestion = questions[counter].question;
+  const fixedQuestion = replaceWeirdStrings(stringDecoder(rawQuestion));
+  const answersArr = [];
   answersArr.push(...incorrectAnswers);
   answersArr.push(correctAnswer);
   shuffle(answersArr);
@@ -245,44 +244,36 @@ function answerChecker(correctAnswer, section, header, questions, choice) {
   let position = counter + 1;
   let moreQuestionsLeft = position < questions.length;
 
-  if (choiceEl.textContent == answer && moreQuestionsLeft) {
+  if (choiceEl.textContent == answer) {
     counter++;
     score++;
     choiceEl.style.backgroundColor = "#00FF00";
-    setTimeout(function () {
-      updateQuestions(questionEl, answerSection), displayQuestions(data);
-    }, 1000);
-  } else if (choiceEl.textContent !== answer && moreQuestionsLeft) {
+    setTimeout(() => updateQuestions(questionEl, answerSection, data), 1000);
+  } else if (choiceEl.textContent !== answer) {
     counter++;
     choiceEl.style.backgroundColor = "#ff0000";
-    setTimeout(function () {
-      updateQuestions(questionEl, answerSection), displayQuestions(data);
-    }, 1000);
-  } else if (choiceEl.textContent == answer && !moreQuestionsLeft) {
-    choiceEl.style.backgroundColor = "#00FF00";
-    setTimeout(() => updateQuestions(questionEl, answerSection), 1000);
-    setTimeout(function () {
-      let gameOver = gameOverHeader();
-      let score = scoreBox(questions.length);
-    }, 1000);
-  } else if (choiceEl.textContent !== answer && !moreQuestionsLeft) {
-    choiceEl.style.backgroundColor = "#ff0000";
-    setTimeout(() => updateQuestions(questionEl, answerSection), 1000);
-    setTimeout(function () {
-      let gameOver = gameOverHeader();
-      let score = scoreBox(questions.length);
-    }, 1000);
+    setTimeout(() => updateQuestions(questionEl, answerSection, data), 1000);
   }
 }
 
 // condition for setTimeout in answerChecker
-function updateQuestions(questionEl, answerSection) {
+function updateQuestions(questionEl, answerSection, data) {
   let choices = document.querySelectorAll(".answer-choice");
+  let position = counter + 1;
   for (const x of choices) {
     answerSection.removeChild(x);
   }
   container.removeChild(questionEl);
   container.removeChild(answerSection);
+
+  if (counter < data.length) {
+    displayQuestions(data);
+  } else {
+    let gameOver = gameOverHeader();
+    let score = scoreBox(data.length);
+  }
+
+  console.log(position, data.length);
 }
 
 //// COMPONENTS FOR QUIZ APP ////
@@ -337,7 +328,3 @@ function scoreBox(questionTotal) {
   container.appendChild(scoreBox);
   return scoreBox;
 }
-
-replaceWeirdStrings(
-  `Which famous rapper is featured in Jack Ã (Skrillex and Diplo)'s 2015 single called "Febreze"?`
-);
