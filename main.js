@@ -142,7 +142,9 @@ function generateUrl(questions) {
     }
   }
 
-  return generateQuestions(Url);
+  let encodedUrl = Url + "encode=base64";
+
+  return generateQuestions(encodedUrl);
 }
 
 function generateQuestions(url) {
@@ -152,6 +154,20 @@ function generateQuestions(url) {
     .then(function (data) {
       beginGame(data.results);
     });
+}
+
+// for decoding the url from base64 to utf8
+
+function stringDecoder(str) {
+  const utf8 = atob(str);
+  return utf8;
+}
+
+function replaceWeirdStrings(str) {
+  const regex = /Ã/g;
+
+  const newStr = str.replace(regex, "Ü");
+  return newStr;
 }
 
 // for shuffling the answers before displaying them onto the screen
@@ -171,22 +187,10 @@ function shuffle(array) {
   return array;
 }
 
-// getting rid of the weird characters in the questions
-function replaceWeirdStrings(str) {
-  const findQuote = /&quot;/g;
-  const findApostrophe = /&#039;/g;
-  const findUmlaut = /&ouml;/g;
-  const findAmp = /&amp;/g;
-  const findCircumflex = /&ocirc;/g;
-  const weirdCharacters = /[A-zÀ-ÿ]/g;
-
-  const fixQuotes = str.replace(findQuote, "''");
-  const fixApostrophe = fixQuotes.replace(findApostrophe, "'");
-  const fixUmlaut = fixApostrophe.replace(findUmlaut, "ö");
-  const fixAmp = fixUmlaut.replace(findAmp, "&");
-  const fixCircumflex = fixAmp.replace(findCircumflex, "^");
-
-  return fixCircumflex;
+// getting rid of the weird characters in the questions (for decoding the url from base64 to utf8)
+function stringDecoder(str) {
+  const utf8 = atob(str);
+  return utf8;
 }
 
 function beginGame(questions) {
@@ -201,30 +205,29 @@ function displayQuestions(questions) {
   let questionTotal = questions.length;
   let currentQuestion = questions[counter];
   let correctAnswer = questions[counter].correct_answer;
+  const fixedCorrectAnswer = replaceWeirdStrings(stringDecoder(correctAnswer));
   let incorrectAnswers = questions[counter].incorrect_answers;
   let rawQuestion = questions[counter].question;
-  let fixedQuestion = replaceWeirdStrings(rawQuestion);
+  let fixedQuestion = replaceWeirdStrings(stringDecoder(rawQuestion));
   let answersArr = [];
-
   answersArr.push(...incorrectAnswers);
   answersArr.push(correctAnswer);
   shuffle(answersArr);
-
-  console.log(rawQuestion);
 
   const header = createQuestionHeader(fixedQuestion);
   const section = answerChoicesSection();
   let choice;
 
   for (const ans of answersArr) {
-    let fixedAns = replaceWeirdStrings(ans);
+    let fixedAnswers = replaceWeirdStrings(stringDecoder(ans));
     let choice = createAnswerChoice(
-      fixedAns,
-      correctAnswer,
+      fixedAnswers,
+      fixedCorrectAnswer,
       section,
       header,
       questions
     );
+
     section.appendChild(choice);
   }
 
@@ -334,3 +337,7 @@ function scoreBox(questionTotal) {
   container.appendChild(scoreBox);
   return scoreBox;
 }
+
+replaceWeirdStrings(
+  `Which famous rapper is featured in Jack Ã (Skrillex and Diplo)'s 2015 single called "Febreze"?`
+);
