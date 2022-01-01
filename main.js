@@ -272,7 +272,7 @@ function updateQuestions(questionEl, answerSection, data) {
   } else {
     const gameOver = gameOverHeader();
     const score = scoreBox(data.length);
-    const postGame = postGameOptions();
+    const postGame = postGameOptions(data);
   }
 
   console.log(position, data.length);
@@ -284,6 +284,11 @@ function disableButton() {
   for (const choice of htmlAnswerChoices) {
     choice.onclick = null;
   }
+}
+
+function runSameQuestions(data) {
+  const shuffleData = shuffle(data);
+  console.log(shuffleData);
 }
 
 //// COMPONENTS FOR QUIZ APP ////
@@ -339,10 +344,11 @@ function scoreBox(questionTotal) {
   return scoreBox;
 }
 
-function createPlayAgain() {
+function createPlayAgain(data) {
   const playAgain = document.createElement("p");
   playAgain.classList.add("play-again");
   playAgain.textContent = "Play Again!";
+  playAgain.onclick = () => runSameQuestions(data);
   return playAgain;
 }
 
@@ -353,12 +359,12 @@ function createNewGame() {
   return newGame;
 }
 
-function postGameOptions() {
+function postGameOptions(data) {
   const section = document.createElement("section");
   section.classList.add("post-game-options");
 
   const newGame = createNewGame();
-  const playAgain = createPlayAgain();
+  const playAgain = createPlayAgain(data);
 
   section.appendChild(newGame);
   section.appendChild(playAgain);
