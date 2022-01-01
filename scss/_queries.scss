@@ -40,6 +40,14 @@
       width: 60%;
       letter-spacing: 0.15rem;
     }
+    .post-game-options {
+      .new-game {
+        width: 30%;
+      }
+      .play-again {
+        width: 30%;
+      }
+    }
   }
 }
 
@@ -88,6 +96,18 @@
     .score-box {
       font-size: 1.5rem;
     }
+    .post-game-options {
+      height: 4rem;
+
+      .new-game {
+        width: 30%;
+        font-size: 1.25rem;
+      }
+
+      .play-again {
+        font-size: 1.25rem;
+      }
+    }
   }
 }
 
@@ -124,6 +144,18 @@
     }
     .score-box {
       width: 50%;
+    }
+
+    .post-game-options {
+      margin-top: 2rem;
+
+      .new-game {
+        width: 25%;
+      }
+
+      .play-again {
+        width: 25%;
+      }
     }
   }
 }
@@ -185,6 +217,11 @@
           font-size: 0.85rem;
         }
       }
+    }
+  }
+  .post-game-options {
+    .new-game {
+      font-size: 0.9rem;
     }
   }
 }

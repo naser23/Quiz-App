@@ -192,6 +192,58 @@ body {
   border-radius: 15px;
 }
 
+#container .post-game-options {
+  width: 100%;
+  height: 3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+#container .post-game-options .play-again {
+  width: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #4abdac;
+  border-radius: 10px;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+#container .post-game-options .play-again:hover {
+  background-color: #303030;
+}
+
+#container .post-game-options .new-game {
+  width: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #4abdac;
+  border-radius: 10px;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+#container .post-game-options .new-game:hover {
+  background-color: #303030;
+}
+
 @-webkit-keyframes slidein {
   from {
     margin-left: 100%;
@@ -252,6 +304,12 @@ body {
     width: 60%;
     letter-spacing: 0.15rem;
   }
+  #container .post-game-options .new-game {
+    width: 30%;
+  }
+  #container .post-game-options .play-again {
+    width: 30%;
+  }
 }
 
 @media (min-width: 767.98px) {
@@ -291,6 +349,16 @@ body {
   #container .score-box {
     font-size: 1.5rem;
   }
+  #container .post-game-options {
+    height: 4rem;
+  }
+  #container .post-game-options .new-game {
+    width: 30%;
+    font-size: 1.25rem;
+  }
+  #container .post-game-options .play-again {
+    font-size: 1.25rem;
+  }
 }
 
 @media (min-width: 991.98px) {
@@ -321,6 +389,15 @@ body {
   }
   #container .score-box {
     width: 50%;
+  }
+  #container .post-game-options {
+    margin-top: 2rem;
+  }
+  #container .post-game-options .new-game {
+    width: 25%;
+  }
+  #container .post-game-options .play-again {
+    width: 25%;
   }
 }
 
@@ -366,6 +443,9 @@ body {
   #container .build-your-game .dropdown-menus select[name="dropdown"] {
     border-radius: 10px;
     font-size: 0.85rem;
+  }
+  .post-game-options .new-game {
+    font-size: 0.9rem;
   }
 }
 

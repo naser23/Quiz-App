@@ -270,8 +270,9 @@ function updateQuestions(questionEl, answerSection, data) {
   if (counter < data.length) {
     displayQuestions(data);
   } else {
-    let gameOver = gameOverHeader();
-    let score = scoreBox(data.length);
+    const gameOver = gameOverHeader();
+    const score = scoreBox(data.length);
+    const postGame = postGameOptions();
   }
 
   console.log(position, data.length);
@@ -336,4 +337,32 @@ function scoreBox(questionTotal) {
   scoreBox.textContent = `Your Score ${score}/${questionTotal}`;
   container.appendChild(scoreBox);
   return scoreBox;
+}
+
+function createPlayAgain() {
+  const playAgain = document.createElement("p");
+  playAgain.classList.add("play-again");
+  playAgain.textContent = "Play Again!";
+  return playAgain;
+}
+
+function createNewGame() {
+  const newGame = document.createElement("p");
+  newGame.classList.add("new-game");
+  newGame.textContent = "Build New Game!";
+  return newGame;
+}
+
+function postGameOptions() {
+  const section = document.createElement("section");
+  section.classList.add("post-game-options");
+
+  const newGame = createNewGame();
+  const playAgain = createPlayAgain();
+
+  section.appendChild(newGame);
+  section.appendChild(playAgain);
+  container.appendChild(section);
+  console.log(section);
+  return section;
 }
