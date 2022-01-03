@@ -158,10 +158,6 @@ function generateQuestions(url) {
 }
 
 // for decoding the url from base64 to utf8
-function stringDecoder(str) {
-  const utf8 = atob(str);
-  return utf8;
-}
 
 function replaceWeirdStrings(str) {
   const regex = /Ã/g;
@@ -296,6 +292,19 @@ function runSameQuestions(data, gameOver, scoreTotal, section) {
   displayQuestions(shuffleData);
 }
 
+function buildGameAgain(gameOver, scoreTotal, section) {
+  // remove game over header, scorebox, and post game options.
+  // bringing back the build game elements
+
+  container.removeChild(gameOver);
+  container.removeChild(scoreTotal);
+  container.removeChild(section);
+
+  buildGame.style.display = "flex";
+  quizHeader.style.display = "block";
+  startGame.style.display = "block";
+}
+
 //// COMPONENTS FOR QUIZ APP ////
 function createOption(type, value, text, parentEl) {
   let option = document.createElement("option");
@@ -358,10 +367,11 @@ function createPlayAgain(data, gameOver, scoreTotal, section) {
   return playAgain;
 }
 
-function createNewGame() {
+function createNewGame(gameOver, scoreTotal, section) {
   const newGame = document.createElement("p");
   newGame.classList.add("new-game");
   newGame.textContent = "Build New Game!";
+  newGame.onclick = () => buildGameAgain(gameOver, scoreTotal, section);
   return newGame;
 }
 
@@ -369,7 +379,7 @@ function postGameOptions(data, gameOver, scoreTotal) {
   const section = document.createElement("section");
   section.classList.add("post-game-options");
 
-  const newGame = createNewGame();
+  const newGame = createNewGame(gameOver, scoreTotal, section);
   const playAgain = createPlayAgain(data, gameOver, scoreTotal, section);
 
   section.appendChild(newGame);
